@@ -1,0 +1,5 @@
+GET http://localhost:3000/
+
+GET http://asd.localhost:3000/
+
+GET http://qwe.localhost:3000/
