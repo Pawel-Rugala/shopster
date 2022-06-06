@@ -1,28 +1,14 @@
 const express = require('express')
-const app = express()
+const vhost = require('vhost')
+const server = express()
+const api = require('./api/index')
+const client = require('./client/index')
+const app = require('./app/index')
 
-app.use((req, res, next) => {
- const hostname = req.hostname
- const client = hostname.split('.')[0]
- if (client === 'localhost') {
-  req.clientUrl = null
- } else {
-  req.clientUrl = client
- }
- next()
-})
+server.use(vhost('api.localhost', api))
+server.use(vhost('localhost', app))
+server.use(vhost('*.localhost', client))
 
-app.use(express.static('public'))
-app.use(express.static('client/dist'))
-
-app.get('/', (req, res) => {
- if (req.clientUrl) {
-  res.sendFile(`${__dirname}/public/${req.clientUrl}/index.html`)
- } else {
-  res.sendFile(`${__dirname}/client/dist/index.html`)
- }
-})
-
-app.listen(3000, () => {
- console.log('Example app listening on port 3000!')
+server.listen(5000, () => {
+ console.log('Example app listening on port 5000!')
 })
