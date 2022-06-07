@@ -1,11 +1,10 @@
 import express from 'express'
 import vhost from 'vhost'
+import userPages from './userPages/usersPages'
+import api from './api/api'
+import clientApp from './app/app'
 
 const server = express()
-
-const clientApp = require('./app/app')
-const userPages = require('./userPages/usersPages')
-const api = require('./api/api')
 
 server.use(vhost('api.localhost', api))
 server.use(vhost('localhost', clientApp))

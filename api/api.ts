@@ -1,5 +1,5 @@
-const express = require('express')
-const cors = require('cors')
+import express from 'express'
+import cors from 'cors'
 const router = express.Router()
 
 router.use(cors())
@@ -12,4 +12,4 @@ router.get('/hello', (req, res) => {
  res.json({ msg: 'Hello API' })
 })
 
-module.exports = router
+export default router
