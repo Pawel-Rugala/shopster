@@ -1,10 +1,10 @@
 const express = require('express')
-const router = express.Router()
+const client = express()
 
-router.use(express.static(`${__dirname}/dist`))
+client.set('view engine', 'ejs')
 
-router.all('*', (req, res) => {
- res.sendFile(`${__dirname}/dist/index.html`)
+client.get('/', (req, res) => {
+ res.render('app/index')
 })
 
-module.exports = router
+module.exports = client
