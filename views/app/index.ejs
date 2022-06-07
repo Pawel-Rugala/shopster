@@ -10,7 +10,12 @@
 
 <body>
   <h1>Shopster app</h1>
-  <form method="post" action="http://api.localhost:5000/page">
+  <form method="POST" action="http://api.localhost:5000/page">
+    <div>
+      <label for="domain">Domain name</label>
+      <input type="text" name="domain" id="domain" readonly tabindex="-1">
+      <span id="domainError" style="display: none;">Sorry this domain is already taken</span>
+    </div>
     <div>
       <label for="page">Page name</label>
       <input type="text" name="page" id="page">
@@ -19,8 +24,47 @@
       <label for="desc">Page url</label>
       <input type="text" name="desc" id="desc">
     </div>
-    <button type="submit">Create new page</button>
+    <button type="submit" id="submitBtn" disabled>Create new page</button>
   </form>
 </body>
+
+<script>
+  const data = {
+    domain: '',
+    page: '',
+    desc: ''
+  }
+
+  const domainName = document.getElementById('domain');
+  const pageName = document.getElementById('page');
+  const submitBtn = document.getElementById('submitBtn');
+  const domainError = document.getElementById('domainError');
+  pageName.addEventListener('change', async function() {
+    let val = pageName.value.toLowerCase().replace(/[^a-zA-Z0-9]+/g, "-");
+    domainName.value = val + '.localhost:5000';
+    if (val) {
+      const check = await fetch('http://api.localhost:5000/page-check', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          page: val
+        })
+      });
+      const res = await check.json();
+      if (res.check) {
+        domainError.style.display = 'block';
+        submitBtn.disabled = true;
+      } else {
+        domainError.style.display = 'none';
+        submitBtn.disabled = false;
+      }
+    } else {
+      domainError.style.display = 'none';
+      submitBtn.disabled = true;
+    }
+  })
+</script>
 
 </html>

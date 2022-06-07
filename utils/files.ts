@@ -35,3 +35,15 @@ export const writeFile = (filePath: string, data: string) => {
   })
  })
 }
+
+export const checkDir = (path: string) => {
+ return new Promise((resolve, reject) => {
+  fs.access(path, fs.constants.F_OK, (err) => {
+   if (err) {
+    reject(false)
+   } else {
+    resolve(true)
+   }
+  })
+ })
+}

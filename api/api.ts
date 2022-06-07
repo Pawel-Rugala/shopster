@@ -1,12 +1,13 @@
 import express from 'express'
 import cors from 'cors'
 import path from 'path'
-import fs from 'fs'
-import { createDir, writeFile } from '../utils/files'
+import { createDir, writeFile, checkDir } from '../utils/files'
+import { json } from 'stream/consumers'
 const router = express.Router()
 
 router.use(cors())
 router.use(express.urlencoded({ extended: true }))
+router.use(express.json())
 
 router.get('/', (req, res) => {
  res.json({ msg: 'Hello API HOME' })
@@ -15,6 +16,7 @@ router.get('/', (req, res) => {
 const template = `
 {
  "template": "temp1",
+ "domain": "{{{temp.domain}}}",
  "pageTitle": "{{{temp.page}}}",
  "pageDescription": "{{{temp.desc}}}"
 }
@@ -22,29 +24,42 @@ const template = `
 `
 
 router.post('/page', (req, res) => {
- const { page, desc } = req.body
+ try {
+  const { page, desc, domain } = req.body
+  const domainName: string = domain.split('.')[0]
+  const txt = template
+   .replace('{{{temp.page}}}', page)
+   .replace('{{{temp.desc}}}', desc)
+   .replace('{{{temp.domain}}}', domainName)
 
- //TODO check if page already exists
- //TODO check if page is valid
- //TODO check if desc is valid
- //TODO rename the folder name to domain name
+  createDir(path.join(__dirname, `../userPages/${domainName}`))
+   .then(() => {
+    return writeFile(
+     path.join(__dirname, `../userPages/${domainName}/general.json`),
+     txt
+    )
+   })
+   .then(() => {
+    res.redirect(`http://${domainName}.localhost:5000/`)
+   })
+   .catch((err) => {
+    console.log(err)
+   })
+ } catch (error) {
+  res.status(500).json({ error })
+ }
+})
 
- const txt = template
-  .replace('{{{temp.page}}}', page)
-  .replace('{{{temp.desc}}}', desc)
-
- createDir(path.join(__dirname, `../userPages/${page}`))
-  .then(() => {
-   return writeFile(
-    path.join(__dirname, `../userPages/${page}/general.json`),
-    txt
-   )
-  })
-  .then(() => {
-   res.redirect(`http://${page}.localhost:5000/`)
+router.post('/page-check', async (req, res) => {
+ const { page } = req.body
+ console.log(page)
+ checkDir(path.join(__dirname, `../userPages/${page}`))
+  .then((check) => {
+   console.log(check)
+   res.json({ check })
   })
   .catch((err) => {
-   console.log(err)
+   res.json({ check: false })
   })
 })
 
