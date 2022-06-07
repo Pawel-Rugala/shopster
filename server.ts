@@ -1,5 +1,6 @@
-const express = require('express')
-const vhost = require('vhost')
+import express from 'express'
+import vhost from 'vhost'
+
 const server = express()
 
 const clientApp = require('./app/app')
