@@ -10,6 +10,17 @@
 
 <body>
   <h1>Shopster app</h1>
+  <form method="post" action="http://api.localhost:5000/page">
+    <div>
+      <label for="page">Page name</label>
+      <input type="text" name="page" id="page">
+    </div>
+    <div>
+      <label for="desc">Page url</label>
+      <input type="text" name="desc" id="desc">
+    </div>
+    <button type="submit">Create new page</button>
+  </form>
 </body>
 
 </html>
