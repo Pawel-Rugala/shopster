@@ -8,4 +8,8 @@ client.get('/', (req, res) => {
  res.render('app/index')
 })
 
+client.get('/temp1', (req, res) => {
+ res.render('temp1/temp')
+})
+
 export default client

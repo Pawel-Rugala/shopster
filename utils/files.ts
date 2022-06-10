@@ -1,12 +1,12 @@
 import fs from 'fs'
 
 export const readFile = (filePath: string) => {
- return new Promise((resolve, reject) => {
+ return new Promise<string>((resolve, reject) => {
   fs.readFile(filePath, (err, data) => {
    if (err) {
-    reject(err)
+    reject(err.toString())
    } else {
-    resolve(data)
+    resolve(data.toString())
    }
   })
  })

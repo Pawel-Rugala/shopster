@@ -26,6 +26,14 @@
     </div>
     <button type="submit" id="submitBtn" disabled>Create new page</button>
   </form>
+  <div>
+    <div x-data="{open: false}">
+      <button @click="open = !open">Expand</button>
+      <p x-show="open">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt, possimus. Doloremque assumenda laboriosam, eius minus explicabo ipsa laudantium, tempore, libero delectus excepturi rem ratione nemo praesentium debitis maiores vero totam?</p>
+    </div>
+  </div>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 </body>
 
 <script>

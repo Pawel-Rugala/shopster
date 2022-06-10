@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { NextFunction } from 'express'
 import path from 'path'
 import type { Request } from 'express'
 import { readFile } from '../utils/files'
@@ -6,11 +6,9 @@ import { IUserFile } from '../types'
 
 const userPages = express()
 
-type RequestExtended = Request & { what: string }
-
 userPages.set('view engine', 'ejs')
 
-userPages.use((req: RequestExtended, res, next) => {
+userPages.use((req, res, next) => {
  const what = req.hostname.replace('www', '').split('.')[0]
  if (what !== 'api') {
   req.what = what
@@ -18,9 +16,10 @@ userPages.use((req: RequestExtended, res, next) => {
  next()
 })
 
-userPages.get('/', (req: RequestExtended, res) => {
- readFile(path.join(__dirname, `./${req.what}/general.json`))
-  .then((data: string) => {
+userPages.get('/', (req, res) => {
+ const { what } = req
+ readFile(path.join(__dirname, `./${what}/general.json`))
+  .then((data) => {
    return JSON.parse(data)
   })
   .then((data: IUserFile) => {
