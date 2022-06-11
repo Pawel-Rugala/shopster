@@ -1,6 +1,5 @@
-import express, { NextFunction } from 'express'
+import express from 'express'
 import path from 'path'
-import type { Request } from 'express'
 import { readFile } from '../utils/files'
 import { IUserFile } from '../types'
 
