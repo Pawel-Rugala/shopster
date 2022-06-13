@@ -1,15 +1,33 @@
   <header>
-    <nav class="flex justify-between items-end">
-      <div class="text-slate-700">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-align-justified" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <nav class="flex justify-between items-end md:grid grid-cols-3 md:justify-items-center md:place-items-center">
+      <div class="text-slate-700 relative md:hidden" x-data="{open: false}">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-align-justified" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round" x-on:click="open = !open">
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <line x1="4" y1="6" x2="20" y2="6" />
           <line x1="4" y1="12" x2="20" y2="12" />
           <line x1="4" y1="18" x2="16" y2="18" />
         </svg>
+        <div x-show="open" class="absolute mt-2 p-5 w-32 bg-red-500 grid grid-cols-1 gap-3 z-10">
+          <a href="#">shop</a>
+          <a href="#">about</a>
+          <a href="#">contact</a>
+          <hr />
+          <a href="#">cart</a>
+        </div>
       </div>
-      <h1 class="text-4xl ">Shopster</h1>
-      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <ul class="hidden md:flex gap-5 uppercase font-light md:place-self-start md:self-end">
+        <li>
+          <a href="#" class="active">shop</a>
+        </li>
+        <li>
+          <a href="#">about</a>
+        </li>
+        <li>
+          <a href="#">contact</a>
+        </li>
+      </ul>
+      <h1 class="text-4xl">Shopster</h1>
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart md:place-self-end" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <circle cx="6" cy="19" r="2" />
         <circle cx="17" cy="19" r="2" />
